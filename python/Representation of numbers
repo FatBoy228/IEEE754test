@@ -1,1 +1,38 @@
+import sys
+import math
+import struct 
 
+a = 3.14
+
+#вывод порядка записи
+print(sys.byteorder)
+
+#запись в файл
+floats = [3.4]
+s = struct.pack('f'*len(floats), *floats)
+f = open('filename', 'wb')
+f.write(s)
+f.close()
+
+#чтение из файла
+arr = []
+f = open('filename', 'rb')
+for i in range(4):
+    arr.append(f.read(1))
+print(arr)
+
+#массив символов в двоичном виде
+d = []
+for i in range(4):
+    d.append(bin(int.from_bytes(arr[i], byteorder='little')))
+    d[i] = d[i][2:].zfill(8)
+print(d)
+f.close()
+
+#конкантенация символов в одну строку
+string = ''
+for i in range(4):
+    for j in range(8):
+        string = string + d[3 - i][j]
+
+print(string)
